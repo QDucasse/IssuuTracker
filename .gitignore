@@ -126,3 +126,6 @@ Thumbs.db
 *.log
 *.sql
 *.sqlite
+
+# Graphs results
+graphs

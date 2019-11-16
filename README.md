@@ -31,9 +31,9 @@ virtual environment, the installation proceeds as follows:
 
   ### Objectives and Milestones of the project
 
-  - [ ] Views by country/continent (Q.2a,Q.2b)
-  - [ ] Views by browser (Q.3)
-  - [ ] "Also likes" functionality (Q.4)
+  - [X] Views by country/continent (Q.2a,Q.2b)
+  - [X] Views by browser (Q.3)
+  - [X] "Also likes" functionality (Q.4)
   - [ ] "Also likes" graph (Q.5)
   - [ ] GUI usage (Q.6)
   - [ ] Command line wrapper (Q.7)

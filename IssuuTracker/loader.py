@@ -7,6 +7,7 @@ import pycountry_convert as pc
 import pandas            as pd
 import seaborn           as sns
 import matplotlib.pyplot as plt
+from collections import Counter
 
 path_base_dataset = './data/issuu_cw2.json'
 path_smpl_dataset = './data/issuu_sample.json'
@@ -160,11 +161,25 @@ def readers_of(df,doc_uuid):
     readers_list: Pandas.DataFrame
         Dataframe of the UUIDs of the readers of the given document.
     '''
-    return df.loc[df['subject_doc_id']== doc_uuid, ['visitor_uuid']]
+    return df.loc[df['subject_doc_id'] == doc_uuid, ['visitor_uuid','subject_doc_id']]
+
+def readers_of_list(df,doc_uuid):
+    '''
+    Return the list of the readers of a document
+    Parameters
+    ==========
+    Same as readers_of()
+
+    Returns
+    =======
+    readers_list: string list
+        List of the readers.
+    '''
+    return list(set(readers_of(df,doc_uuid)['visitor_uuid'].values.tolist()))
 
 def has_read(df,visitor_uuid):
     '''
-    Output the readers of a document given its uuid.
+    Output the documents a user has read.
     Parameters
     ==========
     df: Pandas.DataFrame
@@ -177,9 +192,24 @@ def has_read(df,visitor_uuid):
     readers_list: Pandas.DataFrame
         Dataframe of the UUIDs of the readers of the given document.
     '''
-    return df.loc[df['visitor_uuid']== visitor_uuid, ['sunject_doc_uuid']]
+    return df.loc[df['visitor_uuid'] == visitor_uuid, ['visitor_uuid','subject_doc_id']]
 
-def also_likes(df,doc_uuid,visitor_uuid,sort_func):
+def has_read_list(df,visitor_uuid):
+    '''
+    Output the list of documents a user has read.
+    Parameters
+    ==========
+    Same as has_read()
+
+    Returns
+    =======
+    readers_list: string list
+        List of the documents.
+    '''
+    return list(set(has_read(df,visitor_uuid)['subject_doc_id'].values.tolist()))
+
+
+def also_likes(df,doc_uuid,visitor_uuid=None,sort_func=None):
     '''
     Output documents that have been read by the same visitors that read <doc_uuid>.
     Parameters
@@ -191,11 +221,43 @@ def also_likes(df,doc_uuid,visitor_uuid,sort_func):
     visitor_uuid: string
         (OPTIONAL) UUID of the visitor.
     sort_func: function
+        Sort function to output the list ordered following this criteria.
 
     Returns
     =======
+    df_list: Pandas.DataFrame list
+        List of the dataframes read by other readers of the provided document.
     '''
-    return
+    df_list = [docs for _,visitor in readers_of(df,doc_uuid)['visitor_uuid'].iteritems() for _,docs in has_read(df,visitor)['subject_doc_id'].iteritems()]
+    if sort_func is None:
+        return df_list
+    else:
+        return sort_func(df_list)
+
+## SORTING FUNCTIONS
+## =================
+
+def sort_count_docs(docs_list):
+    '''
+    Sort the input list by frequency and remove duplicates.
+    Parameters
+    ==========
+    docs_list: string list
+        List of documents UUIDs.
+
+    Returns
+    =======
+    sort_list: string list
+        List of documents UUIDs sorted by frequency with no duplicates
+    '''
+    counts = Counter(docs_list)
+    # Sorting by frequency
+    sort_list = sorted(docs_list, key=counts.get, reverse=True)
+    # Removing duplicates
+    sort_list = list(set(sort_list))
+    return sort_list
+
+
 
 if __name__ == "__main__":
     full_df = load_dataset_json(path_base_dataset)
@@ -205,3 +267,5 @@ if __name__ == "__main__":
     # plot_browsers_verbose(full_df)
     # plot_browsers(full_df)
     # print(readers_of(full_df,'130228184234-6fd07690237d48aaa7be4e20cb767b13'))
+    # print(has_read(full_df,'bd378ce6df7cb9cd'))
+    # print(also_likes(full_df,'120928161916-bbf9b86bb865460a8e674d5338115a18',sort_func=sort_count_docs))
