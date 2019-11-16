@@ -1,6 +1,7 @@
 numpy
 pandas
+seaborn
+pycountry_convert
 matplotlib
-tkinter
 graphviz
-pyinstaller 
+pyinstaller

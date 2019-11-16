@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages  # Always prefer setuptools over distutils
 from codecs import open  # To use a consistent encoding
 from os import path
-import dm_cw1
+import IssuuTracker
 
 here = path.abspath(path.dirname(__file__))
 
@@ -15,7 +15,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/QDucasse/dm_cw1',
+    url='https://github.com/QDucasse/IssuuTracker',
 
     # Author details
     author='Quentin Ducasse',
@@ -53,6 +53,6 @@ setup(
 
     packages=find_packages(),
 
-    install_requires=['numpy','matplotlib','pandas','tkinter','graphviz','pyinstaller'],
+    install_requires=['numpy','matplotlib','pandas','seaborn','pycountry_convert','graphviz','pyinstaller'],
 
 )
