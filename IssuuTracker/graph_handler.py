@@ -43,7 +43,7 @@ def create_graph(df,base_visitor_uuid,base_document_uuid):
             # Creation of the document node + visitor->document edge if the
             # document node is not already defined. Else, only the edge is created
             create_document_node(graph,document,base_document_uuid,visitor)
-
+    graph.render('./graphs/'+graph.name,view=True)
     return graph
 
 def create_visitor_node(graph,visitor_uuid,base_visitor_uuid):
@@ -98,5 +98,5 @@ def create_document_node(graph,document_uuid,base_document_uuid,visitor_uuid):
 if __name__ == "__main__":
     full_df = load_dataset_json(path_base_dataset)
     smpl_df = load_dataset_json(path_smpl_dataset)
-    graph = create_graph(full_df,'bd378ce6df7cb9cd','130228184234-6fd07690237d48aaa7be4e20cb767b13')
-    graph.render('./graphs/'+graph.name,view=True)
+    # graph = create_graph(full_df,'bd378ce6df7cb9cd','130228184234-6fd07690237d48aaa7be4e20cb767b13')
+    graph = create_graph(full_df,'2f63e0cca690da91','140219141540-c900b41f845c67cc08b58911155c681c')
