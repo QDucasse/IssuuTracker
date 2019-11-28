@@ -3,6 +3,8 @@ created on: 16/11/2019-12:44
 by: QDucasse
 '''
 
+import re
+
 import pycountry_convert as pc
 import pandas            as pd
 import seaborn           as sns
@@ -10,8 +12,11 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 path_base_dataset = './data/issuu_cw2.json'
+path_100k_dataset = './data/issu_100k.json'
+path_400k_dataset = './data/issu_400k.json'
+path_600k_dataset = './data/issu_600k.json'
+path_3m_dataset = './data/issu_3m.json'
 path_smpl_dataset = './data/issuu_sample.json'
-path_cont_dataset = './data/country_continent.csv'
 
 ## LOADING DATASET
 ## ===============
@@ -39,8 +44,9 @@ def trim_browser(df):
     '''
     Trims the browser attribute.
     '''
+    pattern = '([a-zA-Z]*)\/'
     trimmed_df = df
-    trimmed_df['visitor_useragent'] = trimmed_df['visitor_useragent'].apply(lambda row: row.split("/")[0])
+    trimmed_df['visitor_useragent'] = trimmed_df['visitor_useragent'].apply(lambda row: re.split(pattern,row)[1]+' '+re.split(pattern,row)[-2])
     return trimmed_df
 
 def get_continent_from_country_alpha2(country_code):

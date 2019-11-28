@@ -6,7 +6,7 @@ by: QDucasse
 from graphviz import Digraph
 from loader import *
 
-def create_graph(df,base_visitor_uuid,base_document_uuid):
+def create_graph(df,base_visitor_uuid='',base_document_uuid=''):
     '''
     Create a dot graph for the 'also likes' property.
     Parameters
@@ -99,4 +99,22 @@ if __name__ == "__main__":
     full_df = load_dataset_json(path_base_dataset)
     smpl_df = load_dataset_json(path_smpl_dataset)
     # graph = create_graph(full_df,'bd378ce6df7cb9cd','130228184234-6fd07690237d48aaa7be4e20cb767b13')
-    graph = create_graph(full_df,'2f63e0cca690da91','140219141540-c900b41f845c67cc08b58911155c681c')
+    # graph = create_graph(full_df,'2f63e0cca690da91','140219141540-c900b41f845c67cc08b58911155c681c')
+
+    # TESTS FOR 100k
+    # df_100k = load_dataset_json(path_100k_dataset)
+    # graph = create_graph(df_100k,'00000000deadbeef','100806162735-00000000115598650cb8b514246272b5')
+    # graph = create_graph(df_100k,'00000000deadbeef','aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
+
+    # TESTS FOR 400k
+    # df_400k = load_dataset_json(path_400k_dataset)
+    # graph = create_graph(df_400k,base_document_uuid='140310170010-0000000067dc80801f1df696ae52862b')
+    # graph = create_graph(df_400k,base_document_uuid='140310171202-000000002e5a8ff1f577548fec708d50')
+
+    # TESTS FOR 600k
+    # df_600k = load_dataset_json(path_600k_dataset)
+    # graph = create_graph(df_600k,base_document_uuid='140207031738-eb742a5444c9b73df2d1ec9bff15dae9')
+
+    # TESTS FOR 3M
+    # df_3m = load_dataset_json(path_3m_dataset)
+    # graph = create_graph(df_3m,base_document_uuid='140109173556-a4b921ab7619621709b098aa9de4d736')

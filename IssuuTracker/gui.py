@@ -104,7 +104,9 @@ document_uuid_entry.grid(column = 2, row = 3)
 # Functions:
 # ==========
 def gui_also_likes_list():
-    pass
+    for i,doc in enumerate(al_list):
+        al_doc = tk.Label(al_frame,text = doc)
+        al_doc.grid(column = 1, columnspan = 10,row = i+1)
 
 def gui_also_likes_graph():
     pass
@@ -113,14 +115,14 @@ def gui_also_likes_graph():
 al_uuid = tk.Label(al_frame,text = "Also Likes")
 al_uuid.grid(column = 0, columnspan = 10,row = 0)
 
+al_list = []
 al_list_button = tk.Button(al_frame,text = "List Documents",command = gui_also_likes_list)
 al_list_button.grid(column = 0, row = 1)
 
-al_list_text = tk.Text(al_frame,height=2, width=30)
-al_list_text.grid(column = 1, row = 1)
+
 
 al_graph_button = tk.Button(al_frame,text = "Plot Graph",command = gui_also_likes_graph)
 al_graph_button.grid(column = 0, row = 2)
 
-
-window.mainloop()
+if __name__ == "__main__":
+    window.mainloop()
