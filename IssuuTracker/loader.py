@@ -127,6 +127,6 @@ if __name__ == "__main__":
     # sprint(also_likes_list(full_df,'140219141540-c900b41f845c67cc08b58911155c681c',sort_func=sort_count_docs))
 
     # TEST REGEX
-    # str = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36'
-    # pattern = '([a-zA-Z]*)\/'
-    # print(re.split(pattern,str))
+    str = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36'
+    pattern = '([a-zA-Z]*)\/'
+    print(re.split(pattern,str))
