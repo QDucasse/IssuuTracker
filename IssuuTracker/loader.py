@@ -7,12 +7,13 @@ import re
 import pandas as pd
 from IssuuTracker.continent_converter import ContinentConverter
 
+path_smpl_dataset = './data/issuu_sample.json'
 path_base_dataset = './data/issuu_cw2.json'
 path_100k_dataset = './data/issu_100k.json'
 path_400k_dataset = './data/issu_400k.json'
 path_600k_dataset = './data/issu_600k.json'
-path_3m_dataset = './data/issu_3m.json'
-path_smpl_dataset = './data/issuu_sample.json'
+path_3m_dataset   = './data/issu_3m.json'
+
 
 class DataLoader():
     '''
@@ -56,9 +57,8 @@ class DataLoader():
         if df is None:
             df = self.df
         pattern = '([a-zA-Z]*)\/'
-        trimmed_df = df
-        trimmed_df['visitor_useragent_trimmed'] = trimmed_df['visitor_useragent'].apply(lambda row: re.split(pattern,row)[1]+' '+re.split(pattern,row)[-2])
-        return trimmed_df
+        df['visitor_useragent_trimmed'] = df['visitor_useragent'].apply(lambda row: re.findall(pattern,row)[0]+' '+re.findall(pattern,row)[-1])
+        return df
 
     def get_continent_from_country_alpha2(self,country_code):
         '''
@@ -103,6 +103,8 @@ if __name__ == "__main__":
     dl_full = DataLoader()
     dl_full.complete_load(path_base_dataset)
 
+
+
     dl_smpl = DataLoader()
     dl_smpl.complete_load(path_smpl_dataset)
 
@@ -127,6 +129,8 @@ if __name__ == "__main__":
     # sprint(also_likes_list(full_df,'140219141540-c900b41f845c67cc08b58911155c681c',sort_func=sort_count_docs))
 
     # TEST REGEX
-    str = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36'
-    pattern = '([a-zA-Z]*)\/'
-    print(re.split(pattern,str))
+    # str = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36'
+    # pattern = '([a-zA-Z]*)\/'
+    # match = re.findall(pattern,str)
+    # print(match)
+    # print(dl_full.df.loc[dl_full.df['visitor_useragent_trimmed'] == 'Mozilla Mozilla', ['visitor_useragent']])

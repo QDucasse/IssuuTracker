@@ -4,14 +4,16 @@ by: QDucasse
 '''
 
 from graphviz import Digraph
+from IssuuTracker.affinity_finder import AffinityFinder
 
 class GraphHandler:
 
-    def __init__(self,df,base_visitor_uuid,base_document_uuid=''):
+    def __init__(self,df,base_visitor_uuid='',base_document_uuid=''):
         self.df = df
+        self.af = AffinityFinder(df)
         self.base_visitor_uuid  = base_visitor_uuid
         self.base_document_uuid = base_document_uuid
-        self.graph = Digraph(name='al'+base_document_uuid[-4:])
+        self.graph = Digraph()
 
     def create_graph(self,df=None,base_visitor_uuid=None,base_document_uuid=None):
         '''
@@ -37,8 +39,9 @@ class GraphHandler:
         if base_document_uuid is None:
             base_document_uuid = self.base_document_uuid
 
+        self.graph.name = 'al'+base_document_uuid[-4:]
         # Visitors list for the input document
-        visitors = readers_of_list(df,base_document_uuid)
+        visitors = self.af.readers_of_list(df,base_document_uuid)
 
         # Iterates over visitors UUIDs to create their nodes and the ones of the documents
         # they have read.
@@ -48,7 +51,7 @@ class GraphHandler:
             self.create_visitor_node(visitor,self.graph,base_visitor_uuid)
 
             # List of read documents by the current visitor
-            docs = has_read_list(df,visitor)
+            docs = self.af.has_read_list(df,visitor)
 
             # Iterates over documents UUIDs to create their nodes.
             for document in docs:
@@ -116,18 +119,18 @@ class GraphHandler:
 
 if __name__ == "__main__":
     # IMPORT TESTS
-
+    from IssuuTracker.loader import DataLoader,path_base_dataset
+    dl_full = DataLoader()
+    dl_full.load_dataset_json(path_base_dataset)
     # BASE TESTS
-    full_df = load_dataset_json(path_base_dataset)
-    smpl_df = load_dataset_json(path_smpl_dataset)
-    gh = GraphHandler()
-    # gh.create_graph(full_df,'bd378ce6df7cb9cd','130228184234-6fd07690237d48aaa7be4e20cb767b13')
-    # gh.create_graph(full_df,'2f63e0cca690da91','140219141540-c900b41f845c67cc08b58911155c681c')
+    gh = GraphHandler(dl_full.df,)
+    # gh.create_graph(dl_full.df,'bd378ce6df7cb9cd','130228184234-6fd07690237d48aaa7be4e20cb767b13')
+    gh.create_graph(dl_full.df,'2f63e0cca690da91','140219141540-c900b41f845c67cc08b58911155c681c')
 
     # TESTS FOR 100k
-    df_100k = load_dataset_json(path_100k_dataset)
-    gh.create_graph(df_100k,'00000000deadbeef','100806162735-00000000115598650cb8b514246272b5')
-    gh.create_graph(df_100k,'00000000deadbeef','aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
+    # df_100k = load_dataset_json(path_100k_dataset)
+    # gh.create_graph(df_100k,'00000000deadbeef','100806162735-00000000115598650cb8b514246272b5')
+    # gh.create_graph(df_100k,'00000000deadbeef','aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
 
     # TESTS FOR 400k
     # df_400k = load_dataset_json(path_400k_dataset)

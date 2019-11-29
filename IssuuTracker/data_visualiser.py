@@ -38,7 +38,7 @@ class DataVisualiser():
         hist.tick_params(labelsize=5)
         plt.show()
 
-    def plot_countries(self,df):
+    def plot_countries(self,df=None):
         '''
         Plot a histogram of the home countries of the visitors.
         Parameters
@@ -46,7 +46,9 @@ class DataVisualiser():
         df: Pandas.DataFrame
             Dataframe extracted from the site.
         '''
-        plot_feature(df,'visitor_country','Country','Count')
+        if df is None:
+            df = self.df
+        self.plot_feature(df,'visitor_country','Country','Count')
 
     def plot_continents(self,df):
         '''
@@ -56,9 +58,11 @@ class DataVisualiser():
         df: Pandas.DataFrame
             Dataframe extracted from the site.
         '''
-        plot_feature(df_cont,'visitor_continent','Continent','Count')
+        if df is None:
+            df = self.df
+        self.plot_feature(df_cont,'visitor_continent','Continent','Count')
 
-    def plot_browsers_verbose(self,df):
+    def plot_browsers_verbose(self,df=None):
         '''
         Plot a histogram of the home continents of the visitors.
         Parameters
@@ -66,10 +70,12 @@ class DataVisualiser():
         df: Pandas.DataFrame
             Dataframe extracted from the site.
         '''
-        plot_feature(df,'visitor_useragent','Browser','Count')
+        if df is None:
+            df = self.df
+        self.plot_feature(df,'visitor_useragent','Browser','Count')
 
 
-    def plot_browsers(self,df):
+    def plot_browsers(self,df=None):
         '''
         Plot a histogram of the home continents of the visitors.
         Parameters
@@ -77,9 +83,18 @@ class DataVisualiser():
         df: Pandas.DataFrame
             Dataframe extracted from the site.
         '''
-        plot_feature(df,'visitor_useragent_trimmed','Browser','Count')
+        if df is None:
+            df = self.df
+        self.plot_feature(df,'visitor_useragent_trimmed','Browser','Count')
 
 if __name__ == "__main__":
     # IMPORTS TO TEST
-    pass
+    from IssuuTracker.loader import DataLoader,path_base_dataset
+    dl_full = DataLoader()
+    dl_full.complete_load(path_base_dataset)
+
+    dv = DataVisualiser(dl_full.df)
+    # dv.plot_countries()
+    # dv.plot_continents()
+    dv.plot_browsers()
     # TESTS OF THE DIFFERENT FUNCTIONS

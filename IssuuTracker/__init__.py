@@ -12,5 +12,5 @@ from .affinity_finder     import *
 from .continent_converter import *
 from .data_visualiser     import *
 from .graph_handler       import *
-from .gui                 import *
+#from .gui                 import *
 from .loader              import *

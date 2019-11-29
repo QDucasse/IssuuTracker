@@ -6,7 +6,7 @@ by: QDucasse
 import pandas as pd
 from collections import Counter
 
-def AffinityFinder():
+class AffinityFinder():
     '''
     An AffinityFinder provides metrics on a given dataset and its instances.
     For example, it gives the readers of a certain document, the documents
@@ -53,7 +53,7 @@ def AffinityFinder():
         '''
         if df is None:
             df = self.df
-        return list(set(readers_of(df,doc_uuid)['visitor_uuid'].values.tolist()))
+        return list(set(self.readers_of(df,doc_uuid)['visitor_uuid'].values.tolist()))
 
     def has_read(self,visitor_uuid,df=None):
         '''
@@ -88,7 +88,7 @@ def AffinityFinder():
         '''
         if df is None:
             df = self.df
-        return list(set(has_read(df,visitor_uuid)['subject_doc_id'].values.tolist()))
+        return list(set(self.has_read(df,visitor_uuid)['subject_doc_id'].values.tolist()))
 
 
     def also_likes(self,doc_uuid,df=None,sort_func=None):
@@ -139,7 +139,7 @@ def AffinityFinder():
         '''
         if df is None:
             df = self.df
-        df_list = [docs for visitor in readers_of_list(df,doc_uuid) for docs in has_read_list(df,visitor)]
+        df_list = [docs for visitor in self.readers_of_list(df,doc_uuid) for docs in self.has_read_list(df,visitor)]
         if sort_func is None:
             return df_list
         else:
