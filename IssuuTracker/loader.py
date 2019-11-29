@@ -5,9 +5,14 @@ by: QDucasse
 
 import re
 import pandas as pd
-from continent_converter import ContinentConverter
+from IssuuTracker.continent_converter import ContinentConverter
 
-
+path_base_dataset = './data/issuu_cw2.json'
+path_100k_dataset = './data/issu_100k.json'
+path_400k_dataset = './data/issu_400k.json'
+path_600k_dataset = './data/issu_600k.json'
+path_3m_dataset = './data/issu_3m.json'
+path_smpl_dataset = './data/issuu_sample.json'
 
 class DataLoader():
     '''
@@ -20,16 +25,9 @@ class DataLoader():
     df: DataFrame
         Dataset the DataLoader will load and perform operation on.
     '''
-path_base_dataset = './data/issuu_cw2.json'
-path_100k_dataset = './data/issu_100k.json'
-path_400k_dataset = './data/issu_400k.json'
-path_600k_dataset = './data/issu_600k.json'
-path_3m_dataset = './data/issu_3m.json'
-path_smpl_dataset = './data/issuu_sample.json'
-
     def __init__(self):
         self.cconv = ContinentConverter()
-        self.df = DataFrame()
+        self.df = pd.DataFrame()
 
     def load_dataset_json(self,path):
         '''
@@ -44,7 +42,7 @@ path_smpl_dataset = './data/issuu_sample.json'
         df: Pandas.DataFrame
             Dataframe of the dataset.
         '''
-        df = pd.read_json(self,path,lines=True)
+        df = pd.read_json(path,lines=True)
         self.df = df
         return df
 
@@ -80,7 +78,7 @@ path_smpl_dataset = './data/issuu_sample.json'
         if country_code in undefined_country_codes:
             return 'ZZ'
         else:
-            return convert_country_alpha2_to_continentd(country_code)
+            return self.cconv.convert_country_alpha2_to_continent(country_code)
 
     def add_continents(self,df=None):
         '''
@@ -93,13 +91,13 @@ path_smpl_dataset = './data/issuu_sample.json'
         '''
         if df is None:
             df = self.df
-        df['visitor_continent'] = df['visitor_country'].apply(lambda row: get_continent_from_country_alpha2(row))
+        df['visitor_continent'] = df['visitor_country'].apply(lambda row: self.get_continent_from_country_alpha2(row))
         return df
 
     def complete_load(self,path):
         self.load_dataset_json(path)
         self.trim_browser()
-        self.add_continent()
+        self.add_continents()
 
 if __name__ == "__main__":
     dl_full = DataLoader()

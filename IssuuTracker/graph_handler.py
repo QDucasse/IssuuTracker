@@ -4,7 +4,6 @@ by: QDucasse
 '''
 
 from graphviz import Digraph
-from loader import *
 
 class GraphHandler:
 
@@ -117,7 +116,7 @@ class GraphHandler:
 
 if __name__ == "__main__":
     # IMPORT TESTS
-    
+
     # BASE TESTS
     full_df = load_dataset_json(path_base_dataset)
     smpl_df = load_dataset_json(path_smpl_dataset)

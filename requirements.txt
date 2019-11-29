@@ -1,6 +1,6 @@
-numpy
 pandas
 seaborn
 matplotlib
 graphviz
+pytest
 pyinstaller

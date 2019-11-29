@@ -81,5 +81,5 @@ class DataVisualiser():
 
 if __name__ == "__main__":
     # IMPORTS TO TEST
-
+    pass
     # TESTS OF THE DIFFERENT FUNCTIONS

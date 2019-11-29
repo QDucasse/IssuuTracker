@@ -2,7 +2,7 @@
 Code snippet taken from the package pycountry-convert
 '''
 class ContinentConverter():
-        
+
     COUNTRY_ALPHA2_TO_CONTINENT = {
         'AB': 'Asia',
         'AD': 'Europe',
@@ -251,10 +251,10 @@ class ContinentConverter():
         'ZW': 'Africa',
     }
 
-    def convert_country_alpha2_to_continent(country_2_code):
+    def convert_country_alpha2_to_continent(self,country_2_code):
         """Convert country code to continent.
         """
-        if country_2_code not in COUNTRY_ALPHA2_TO_CONTINENT:
+        if country_2_code not in self.COUNTRY_ALPHA2_TO_CONTINENT:
             raise KeyError
 
-        return COUNTRY_ALPHA2_TO_CONTINENT[country_2_code]
+        return self.COUNTRY_ALPHA2_TO_CONTINENT[country_2_code]
