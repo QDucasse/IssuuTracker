@@ -53,6 +53,6 @@ setup(
 
     packages=find_packages(),
 
-    install_requires=['numpy','matplotlib','pandas','seaborn','pycountry_convert','graphviz','pyinstaller'],
+    install_requires=['numpy','matplotlib','pandas','seaborn','graphviz','pyinstaller'],
 
 )

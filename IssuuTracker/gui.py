@@ -4,7 +4,6 @@ by: QDucasse
 '''
 
 import tkinter as tk
-from tkinter import filedialog
 
 # ==============================================================================
 # ========================== WINDOW GENERATION =================================
@@ -35,7 +34,7 @@ al_frame.grid(row = 3)
 # Functions:
 # ==========
 def load_dataset():
-    filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("json files","*.json"),("all files","*.*")))
+    tk.filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("json files","*.json"),("all files","*.*")))
 
 # Components:
 # ===========
