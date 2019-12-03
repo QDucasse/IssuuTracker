@@ -112,7 +112,7 @@ class AffinityFinder():
         '''
         if df is None:
             df = self.df
-        df_list = [docs for _,visitor in readers_of(df,doc_uuid)['visitor_uuid'].iteritems() for _,docs in has_read(df,visitor)['subject_doc_id'].iteritems()]
+        df_list = [docs for _,visitor in self.readers_of(df,doc_uuid)['visitor_uuid'].iteritems() for _,docs in self.has_read(df,visitor)['subject_doc_id'].iteritems()]
         if sort_func is None:
             return df_list
         else:
@@ -171,7 +171,7 @@ class AffinityFinder():
 
 if __name__ == "__main__":
     # IMPORTS TO TEST
-    from IssuuTracker.loader import DataLoader,path_base_dataset
+    from IssuuTracker.data_loader import DataLoader,path_base_dataset
     dl_full = DataLoader()
     dl_full.load_dataset_json(path_base_dataset)
 

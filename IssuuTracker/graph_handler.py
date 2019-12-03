@@ -119,7 +119,7 @@ class GraphHandler:
 
 if __name__ == "__main__":
     # IMPORT TESTS
-    from IssuuTracker.loader import DataLoader,path_base_dataset
+    from IssuuTracker.data_loader import DataLoader,path_base_dataset
     dl_full = DataLoader()
     dl_full.load_dataset_json(path_base_dataset)
     # BASE TESTS

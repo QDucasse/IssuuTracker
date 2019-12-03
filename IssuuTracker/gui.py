@@ -5,7 +5,7 @@ by: QDucasse
 
 import tkinter as tk
 from tkinter import filedialog
-from IssuuTracker.loader          import DataLoader
+from IssuuTracker.data_loader     import DataLoader
 from IssuuTracker.data_visualiser import DataVisualiser
 from IssuuTracker.affinity_finder import AffinityFinder
 from IssuuTracker.graph_handler   import GraphHandler

@@ -50,7 +50,7 @@ class DataVisualiser():
             df = self.df
         self.plot_feature(df,'visitor_country','Country','Count')
 
-    def plot_continents(self,df):
+    def plot_continents(self,df=None):
         '''
         Plot a histogram of the home continents of the visitors.
         Parameters
@@ -60,7 +60,7 @@ class DataVisualiser():
         '''
         if df is None:
             df = self.df
-        self.plot_feature(df_cont,'visitor_continent','Continent','Count')
+        self.plot_feature(df,'visitor_continent','Continent','Count')
 
     def plot_browsers_verbose(self,df=None):
         '''
@@ -89,7 +89,7 @@ class DataVisualiser():
 
 if __name__ == "__main__":
     # IMPORTS TO TEST
-    from IssuuTracker.loader import DataLoader,path_base_dataset
+    from IssuuTracker.data_loader import DataLoader,path_base_dataset
     dl_full = DataLoader()
     dl_full.complete_load(path_base_dataset)
 

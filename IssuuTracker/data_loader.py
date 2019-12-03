@@ -76,7 +76,7 @@ class DataLoader():
         '''
         undefined_country_codes = ['EU','ZZ','AP']
         if country_code in undefined_country_codes:
-            return 'ZZ'
+            return 'Undefined'
         else:
             return self.cconv.convert_country_alpha2_to_continent(country_code)
 

@@ -3,11 +3,20 @@ created on: 18/11/2019 14:58
 by: QDucasse
 '''
 import argparse
-#from gui           import *
-from loader        import *
-from graph_handler import *
+
+from IssuuTracker.data_loader     import DataLoader
+from IssuuTracker.data_visualiser import DataVisualiser
+from IssuuTracker.affinity_finder import AffinityFinder
+from IssuuTracker.graph_handler   import GraphHandler
+from IssuuTracker.gui             import GUI
 
 if __name__ == "__main__":
+    # COMPONENTS CREATION
+    # ===================
+    dl = DataLoader()
+
+    # ARGUMENTS PARSING
+    # =================
     parser = argparse.ArgumentParser(description='ISSUU Tracker')
     parser.add_argument("-u","--user_uuid", help = "UUID of the user")
     parser.add_argument("-d","--doc_uuid",  help = "UUID of the document")
@@ -16,28 +25,35 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.task_id == "2a":
-        df = load_dataset_json(args.file_name)
-        plot_countries(df)
+        dl.complete_load(args.file_name)
+        dv = DataVisualiser(dl.df)
+        dv.plot_countries()
 
     elif args.task_id == "2b":
-        df = load_dataset_json(args.file_name)
-        plot_continents(df)
+        dl.complete_load(args.file_name)
+        dv = DataVisualiser(dl.df)
+        dv.plot_continents()
 
     elif args.task_id == "3a":
-        df = load_dataset_json(args.file_name)
-        plot_browsers_verbose(df)
+        dl.complete_load(args.file_name)
+        dv = DataVisualiser(dl.df)
+        dv.plot_browsers_verbose()
 
     elif args.task_id == "3b":
-        df = load_dataset_json(args.file_name)
-        plot_browsers(df)
+        dl.complete_load(args.file_name)
+        dv = DataVisualiser(dl.df)
+        dv.plot_browsers()
 
     elif args.task_id == "4d":
-        df = load_dataset_json(args.file_name)
-        print(also_likes(df,args.doc_uuid,sort_func=sort_count_docs))
+        dl.load_dataset_json(args.file_name)
+        af = AffinityFinder(dl.df)
+        print(af.also_likes_list(args.doc_uuid))
 
     elif args.task_id == "5":
-        df = load_dataset_json(args.file_name)
-        graph = create_graph(df,args.user_uuid,args.doc_uuid)
+        dl.load_dataset_json(args.file_name)
+        gh = GraphHandler(dl.df,args.user_uuid,args.doc_uuid)
+        graph = gh.create_graph()
 
     elif args.task_id == "6":
-        pass
+        gui = GUI()
+        gui.mainloop()
