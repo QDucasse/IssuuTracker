@@ -141,21 +141,21 @@ if __name__ == "__main__":
     # gh.create_graph('00000000deadbeef','100806162735-00000000115598650cb8b514246272b5')
     # gh.create_graph('00000000deadbeef','aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
 
-    dl_100k = DataLoader()
-    dl_100k.load_dataset_from(path_100k_dataset)
-    gh = GraphHandler(dicts=dl_100k.dicts)
+    # dl_100k = DataLoader()
+    # dl_100k.load_dataset_from(path_100k_dataset)
+    # gh = GraphHandler(dicts=dl_100k.dicts)
     # gh.create_graph(base_visitor_uuid='00000000deadbeef',base_document_uuid='100806162735-00000000115598650cb8b514246272b5')
-    gh.create_graph(base_visitor_uuid='00000000deadbeef',base_document_uuid='aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
+    # gh.create_graph(base_visitor_uuid='00000000deadbeef',base_document_uuid='aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
 
 
     # # 400K DATASET TESTS
     # # ==================
-    # dl_400k = DataLoaderV2()
+    # dl_400k = DataLoader()
     # dl_400k.load_dataset_from(path_400k_dataset)
     # gh = GraphHandler(dl_400k.dicts)
     # gh.create_graph(base_document_uuid='140310170010-0000000067dc80801f1df696ae52862b')
     # gh.create_graph(base_document_uuid='140310171202-000000002e5a8ff1f577548fec708d50')
-    #
+
     # # 600K DATASET TESTS
     # # ==================
     # dl_600k = DataLoader()

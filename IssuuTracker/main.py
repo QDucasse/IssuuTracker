@@ -45,12 +45,12 @@ if __name__ == "__main__":
         dv.plot_browsers()
 
     elif args.task_id == "4d":
-        dl.load_dataset_json(args.file_name)
+        dl.load_dataset_from(args.file_name)
         af = AffinityFinder(dl.df)
         print(af.also_likes_list(args.doc_uuid))
 
     elif args.task_id == "5":
-        dl.load_dataset_json(args.file_name)
+        dl.load_dataset_from(args.file_name)
         gh = GraphHandler(dl.df,args.user_uuid,args.doc_uuid)
         graph = gh.create_graph()
 

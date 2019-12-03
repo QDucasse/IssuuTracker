@@ -80,7 +80,7 @@ class AffinityFinder():
             dicts = self.dicts
         if sort_func is None:
             sort_func = self.sort_10best
-        dicts_list = [docs for visitor in self.readers_of(doc_uuid,dicts) for docs in self.has_read(visitor,dicts)]
+        dicts_list = [docs for visitor in self.readers_of(doc_uuid,dicts) for docs in self.has_read(visitor,dicts) if visitor!=visitor_uuid]
         return sort_func(dicts_list,doc_uuid)
 
     ## SORTING FUNCTIONS
@@ -104,6 +104,8 @@ class AffinityFinder():
         sort_list = sorted(docs_list, key=counts.get, reverse=True)
         # Removing duplicates
         sort_list = list(set(sort_list))
+        if doc_uuid in sort_list:
+            sort_list.remove(doc_uuid)
         return [doc_uuid] + sort_list[:10]
 
 if __name__ == "__main__":
