@@ -10,10 +10,6 @@ from IssuuTracker.data_visualiser import DataVisualiser
 from IssuuTracker.affinity_finder import AffinityFinder
 from IssuuTracker.graph_handler   import GraphHandler
 
-
-# ==============================================================================
-# ========================== WINDOW GENERATION =================================
-
 class GUI(tk.Tk):
 
     def __init__(self, *args, **kwargs):

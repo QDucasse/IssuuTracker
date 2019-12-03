@@ -171,5 +171,10 @@ class AffinityFinder():
 
 if __name__ == "__main__":
     # IMPORTS TO TEST
-    pass
+    from IssuuTracker.loader import DataLoader,path_base_dataset
+    dl_full = DataLoader()
+    dl_full.load_dataset_json(path_base_dataset)
+
+    af = AffinityFinder(dl_full.df)
+    print(af.also_likes_list('120928161916-bbf9b86bb865460a8e674d5338115a18'))
     # TESTS OF THE DIFFERENT FUNCTIONS
