@@ -255,6 +255,6 @@ class ContinentConverter():
         """Convert country code to continent.
         """
         if country_2_code not in self.COUNTRY_ALPHA2_TO_CONTINENT:
-            return 'Undefined'
+            raise KeyError
 
         return self.COUNTRY_ALPHA2_TO_CONTINENT[country_2_code]

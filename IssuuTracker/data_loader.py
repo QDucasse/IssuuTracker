@@ -1,136 +1,129 @@
 '''
-created on: 16/11/2019-12:44
+created on: 01/12/2019-14:32
 by: QDucasse
 '''
 
 import re
-import pandas as pd
 from IssuuTracker.continent_converter import ContinentConverter
 
 path_smpl_dataset = './data/issuu_sample.json'
 path_base_dataset = './data/issuu_cw2.json'
-path_100k_dataset = './data/issu_100k.json'
-path_400k_dataset = './data/issu_400k.json'
-path_600k_dataset = './data/issu_600k.json'
-path_3m_dataset   = './data/issu_3m.json'
-
+path_100k_dataset = './data/issuu_100k.json'
+path_400k_dataset = './data/issuu_400k.json'
+path_600k_dataset = './data/issuu_600k.json'
+path_3m_dataset   = './data/issuu_3m.json'
 
 class DataLoader():
     '''
-    DataLoader is the wrapper around pandas in order to load datasets and perform
-    operations on the columns (trimming the user_agent field, adding continents).
+    DataLoader is parser of files containing a list of dictionaries. It provides
+    function to operate on certain fields of the dictionaries (adding a continent
+    field from the country or trimming the user_agent field).
     Instance Variables
     ==================
     cconv: ContinentConverter
         Converter used for the transformation between countries and continents.
-    df: DataFrame
-        Dataset the DataLoader will load and perform operation on.
+    dicts: dictionary list
+        Dictionaries loaded by a DataLoader.
     '''
     def __init__(self):
         self.cconv = ContinentConverter()
-        self.df = pd.DataFrame()
+        self.dicts = []
 
-    def load_dataset_json(self,path):
+    def load_dataset_from(self,path):
         '''
-        Load the .json dataset located at <path> in a pandas dataframe.
+        Load the list of dictionaries from a given path, store the list in the
+        dicts instance variable.
         Parameters
         ==========
         path: string
             Path of the dataset.
+        '''
+        with open(path,'r') as file:
+            for line in file:
+                self.dicts.append(eval(line))
+
+    # BROWSER OPERATIONS
+    # ==================
+
+    def add_trimmed_browser(self,dict):
+        '''
+        Add the field 'visitor_useragent_trimmed' to a given dictionary. The value
+        of the field is calculated from the 'visitor_useragent' with a regex.
+        Parameters
+        ==========
+        dict: dictionary
+            One dictionary of the dataset.
 
         Returns
         =======
-        df: Pandas.DataFrame
-            Dataframe of the dataset.
+        new_dict: dictionary
+            Given dictionary with a new field 'visitor_useragent_trimmed'
         '''
-        df = pd.read_json(path,lines=True)
-        self.df = df
-        return df
-
-    ## COLUMN OPERATIONS
-    ## =================
-
-    def trim_browser(self,df=None):
-        '''
-        Trims the browser attribute.
-        '''
-        if df is None:
-            df = self.df
+        browser_verbose = dict['visitor_useragent']
         pattern = '([a-zA-Z]*)\/'
-        df['visitor_useragent_trimmed'] = df['visitor_useragent'].apply(lambda row: re.findall(pattern,row)[0]+' '+re.findall(pattern,row)[-1])
-        return df
+        if 'visitor_useragent' in dict:
+            dict['visitor_useragent_trimmed'] = re.findall(pattern,browser_verbose)[0]+' '+re.findall(pattern,browser_verbose)[-1]
+        return dict
 
-    def get_continent_from_country_alpha2(self,country_code):
+    def map_trim(self,dicts=None):
         '''
-        Wrapper of the pyconvert_country function to handle the 'ZZ' code case and
-        return the same code (undefined) for the continent.
+        Perform the method add_trimmed_browser on all dictionaries present in the
+        dicts instance variable.
         Parameters
         ==========
-        country_code: string
-            Alpha 2 country code (ex. UK, FR, etc.)
+        dicts: dictionary list
+            List of the dictionaries in the file. Default None (instance variable)
+        '''
+        if dicts is None:
+            dicts = self.dicts
+        dicts_with_trim = [self.add_trimmed_browser(dict) for dict in self.dicts]
+        self.dicts = dicts_with_trim
+
+    # COUNTRY/CONTINENT OPERATIONS
+    # ============================
+    def add_continent(self,dict):
+        '''
+        Add the field 'visitor_continent' to a given dictionary. The value
+        of the field is calculated from the 'visitor_country' with the
+        continent_converter.
+        Parameters
+        ==========
+        dict: dictionary
+            One dictionary of the dataset.
 
         Returns
         =======
-        continent: string
-            Alpha 2 continent code (ex. NA, EU, etc.)
+        new_dict: dictionary
+            Given dictionary with a new field 'visitor_useragent_trimmed'
         '''
-        undefined_country_codes = ['EU','ZZ','AP']
-        if country_code in undefined_country_codes:
-            return 'Undefined'
-        else:
-            return self.cconv.convert_country_alpha2_to_continent(country_code)
+        if 'visitor_country' in dict:
+            dict['visitor_continent'] = self.cconv.convert_country_alpha2_to_continent(dict['visitor_country'])
+            return dict
 
-    def add_continents(self,df=None):
+    def map_continents(self,dicts=None):
         '''
-        Add a 'visitor_continent' attribute determined by using the 'visitor_country'
-        and linking it to the country_continent dataset.
+        Perform the method add_continent on all dictionaries present in the
+        dicts instance variable.
         Parameters
         ==========
-        df: Pandas.DataFrame
-            Dataset extracted from the site.
+        dicts: dictionary list
+            List of the dictionaries in the file. Default None (instance variable)
         '''
-        if df is None:
-            df = self.df
-        df['visitor_continent'] = df['visitor_country'].apply(lambda row: self.get_continent_from_country_alpha2(row))
-        return df
+        if dicts is None:
+            dicts = self.dicts
+        dicts_with_cont = [self.add_continent(dict) for dict in self.dicts]
+        self.dicts = dicts_with_cont
 
     def complete_load(self,path):
-        self.load_dataset_json(path)
-        self.trim_browser()
-        self.add_continents()
+        '''
+        Load the files and perform both additions (trimmed user agent and continent)
+        on every dictionary.
+        '''
+        self.load_dataset_from(path)
+        self.map_trim()
+        self.map_continents()
+
 
 if __name__ == "__main__":
-    dl_full = DataLoader()
-    dl_full.complete_load(path_base_dataset)
-
-
-
-    dl_smpl = DataLoader()
-    dl_smpl.complete_load(path_smpl_dataset)
-
-    # smpl_df = load_dataset_json(path_smpl_dataset)
-    # df_100k = load_dataset_json(path_100k_dataset)
-    # df_400k = load_dataset_json(path_400k_dataset)
-    # df_600k = load_dataset_json(path_600k_dataset)
-    # df_3m = load_dataset_json(path_3m_dataset)
-
-    # plot_countries(full_df)
-    # plot_continents(full_df)
-    # plot_browsers_verbose(smpl_df)
-    # plot_browsers(full_df)
-    # print(readers_of(full_df,'130228184234-6fd07690237d48aaa7be4e20cb767b13'))
-    # print(readers_of_list(full_df,'130228184234-6fd07690237d48aaa7be4e20cb767b13'))
-    # print(readers_of_list(full_df,'120928161916-bbf9b86bb865460a8e674d5338115a18'))
-    # print(has_read(full_df,'bd378ce6df7cb9cd'))
-    # print(has_read_list(full_df,'bd378ce6df7cb9cd'))
-    # print(also_likes(full_df,'120928161916-bbf9b86bb865460a8e674d5338115a18',sort_func=sort_count_docs))
-
-    # print(has_read_list(full_df,'2f63e0cca690da91'))
-    # sprint(also_likes_list(full_df,'140219141540-c900b41f845c67cc08b58911155c681c',sort_func=sort_count_docs))
-
-    # TEST REGEX
-    # str = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36'
-    # pattern = '([a-zA-Z]*)\/'
-    # match = re.findall(pattern,str)
-    # print(match)
-    # print(dl_full.df.loc[dl_full.df['visitor_useragent_trimmed'] == 'Mozilla Mozilla', ['visitor_useragent']])
+    dl_base = DataLoader()
+    dl_base.complete_load(path_base_dataset)

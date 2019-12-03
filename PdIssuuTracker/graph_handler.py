@@ -5,17 +5,25 @@ by: QDucasse
 
 from graphviz import Digraph
 from IssuuTracker.affinity_finder   import AffinityFinder
+from IssuuTracker.affinity_finderv2 import AffinityFinderV2
 
 class GraphHandler:
-
-    def __init__(self,dicts,base_visitor_uuid='',base_document_uuid=''):
-        self.dicts = dicts
-        self.af = AffinityFinder(dicts)
+    '''
+    A GraphHandler provides a wrapper around the graphviz package in order to
+    display the also_likes function.
+    Instance Variables
+    ==================
+    dicts: dictionary list
+        Dictionaries loaded by a DataLoader.
+    '''
+    def __init__(self,df,base_visitor_uuid='',base_document_uuid=''):
+        self.df = df
+        self.af = AffinityFinder(df)
         self.base_visitor_uuid  = base_visitor_uuid
         self.base_document_uuid = base_document_uuid
         self.graph = Digraph()
 
-    def create_graph(self,dicts=None,base_visitor_uuid=None,base_document_uuid=None):
+    def create_graph(self,df=None,base_visitor_uuid=None,base_document_uuid=None):
         '''
         Create a dot graph for the 'also likes' property.
         Parameters
@@ -32,20 +40,18 @@ class GraphHandler:
         graph: Digraph
             Digraph object with the link established.
         '''
-        if dicts is None:
-            dicts = self.dicts
+        if df is None:
+            df = self.df
         if base_visitor_uuid is None:
             base_visitor_uuid = self.base_visitor_uuid
         if base_document_uuid is None:
             base_document_uuid = self.base_document_uuid
 
+        also_likes_list = self.af.also_likes
+
         self.graph.name = 'al'+base_document_uuid[-4:]
-
-        # Also likes document
-        al = self.af.also_likes(doc_uuid=base_document_uuid,visitor_uuid=base_visitor_uuid)
-
         # Visitors list for the input document
-        visitors = self.af.readers_of(doc_uuid=base_document_uuid,dicts=dicts)
+        visitors = self.af.readers_of_list(df,base_document_uuid)
 
         # Iterates over visitors UUIDs to create their nodes and the ones of the documents
         # they have read.
@@ -55,15 +61,13 @@ class GraphHandler:
             self.create_visitor_node(visitor,self.graph,base_visitor_uuid)
 
             # List of read documents by the current visitor
-            docs = self.af.has_read(visitor_uuid=visitor,dicts=dicts)
+            docs = self.af.has_read_list(df,visitor)
 
             # Iterates over documents UUIDs to create their nodes.
             for document in docs:
                 # Creation of the document node + visitor->document edge if the
                 # document node is not already defined. Else, only the edge is created
-                if document in al:
-                    self.create_document_node(document,visitor,self.graph,base_document_uuid)
-
+                self.create_document_node(document,visitor,self.graph,base_document_uuid)
         self.graph.render('./graphs/'+self.graph.name,view=True)
         return self.graph
 
@@ -124,7 +128,7 @@ class GraphHandler:
 
 if __name__ == "__main__":
     # IMPORT TESTS
-    from IssuuTracker.data_loader import DataLoader,path_base_dataset,path_100k_dataset,path_400k_dataset,path_600k_dataset,path_3m_dataset
+    from IssuuTracker.data_loader   import DataLoader,path_base_dataset,path_100k_dataset,path_400k_dataset,path_600k_dataset,path_3m_dataset
     # BASE DATASET TESTS
     # ==================
     # dl_base = DataLoader()
@@ -141,17 +145,10 @@ if __name__ == "__main__":
     # gh.create_graph('00000000deadbeef','100806162735-00000000115598650cb8b514246272b5')
     # gh.create_graph('00000000deadbeef','aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
 
-    dl_100k = DataLoader()
-    dl_100k.load_dataset_from(path_100k_dataset)
-    gh = GraphHandler(dicts=dl_100k.dicts)
-    # gh.create_graph(base_visitor_uuid='00000000deadbeef',base_document_uuid='100806162735-00000000115598650cb8b514246272b5')
-    gh.create_graph(base_visitor_uuid='00000000deadbeef',base_document_uuid='aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe')
-
-
     # # 400K DATASET TESTS
     # # ==================
-    # dl_400k = DataLoaderV2()
-    # dl_400k.load_dataset_from(path_400k_dataset)
+    # dl_400k = DataLoader()
+    # dl_400k.load_dataset_json(path_400k_dataset)
     # gh = GraphHandler(dl_400k.dicts)
     # gh.create_graph(base_document_uuid='140310170010-0000000067dc80801f1df696ae52862b')
     # gh.create_graph(base_document_uuid='140310171202-000000002e5a8ff1f577548fec708d50')

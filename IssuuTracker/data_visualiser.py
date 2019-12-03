@@ -13,79 +13,88 @@ class DataVisualiser():
     continents, etc.).
     Instance Variables
     ==================
-    df: DataFrame
-        Dataset that will be plotted by the DataVisualiser.
+    dicts: dictionary list
+        Dictionaries loaded by a DataLoader.
     '''
-    def __init__(self,df):
-        self.df = df
+    def __init__(self,dicts):
+        self.dicts = dicts
 
-    def plot_feature(self,df,feature,xlabel,ylabel):
+    def plot_feature(self,dicts,feature,xlabel,ylabel):
         '''
         Plot the number of the feature attribute in the given dataset.
         Parameters
         ==========
-        df: Pandas.Dataframe
-            Dataframe from which the feature is extracted.
+        dicts: dictionary list
+            Dictionaries loaded by a DataLoader.
         feature: string
             Feature to be extracted and shown.
         '''
-        print(df.groupby(feature).size())
+        # CREATE HISTOGRAM DICT
+        # =====================
+        feature_dict = {}
+        for dict in dicts:
+            if dict[feature] in feature_dict:
+                feature_dict[dict[feature]] += 1
+            else:
+                feature_dict[dict[feature]] = 1
+
+        # PLOTTING
+        # ========
         plt.figure()
-        sns.set(style="whitegrid", color_codes=True)
-        hist = sns.countplot(x=feature,data=df)
-        hist.set_xlabel(xlabel)
-        hist.set_ylabel(ylabel)
-        hist.tick_params(labelsize=5)
+        plt.bar(list(feature_dict.keys()),list(feature_dict.values()))
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.tick_params(labelsize=5)
         plt.show()
 
-    def plot_countries(self,df=None):
+    def plot_countries(self,dicts=None):
         '''
         Plot a histogram of the home countries of the visitors.
         Parameters
         ==========
-        df: Pandas.DataFrame
-            Dataframe extracted from the site.
+        dicts: Pandas.Dataframe
+            Dataframe from which the feature is extracted.
         '''
-        if df is None:
-            df = self.df
-        self.plot_feature(df,'visitor_country','Country','Count')
+        if dicts is None:
+            dicts = self.dicts
+        self.plot_feature(dicts,'visitor_country','Country','Count')
 
-    def plot_continents(self,df=None):
+    def plot_continents(self,dicts=None):
         '''
         Plot a histogram of the home continents of the visitors.
         Parameters
         ==========
-        df: Pandas.DataFrame
-            Dataframe extracted from the site.
+        dicts: dictionary list
+            Dictionaries loaded by a DataLoader. Default None (instance variable)
         '''
-        if df is None:
-            df = self.df
-        self.plot_feature(df,'visitor_continent','Continent','Count')
+        if dicts is None:
+            dicts = self.dicts
+        self.plot_feature(dicts,'visitor_continent','Continent','Count')
 
-    def plot_browsers_verbose(self,df=None):
+    def plot_browsers_verbose(self,dicts=None):
         '''
         Plot a histogram of the home continents of the visitors.
         Parameters
         ==========
-        df: Pandas.DataFrame
-            Dataframe extracted from the site.
+        dicts: dictionary list
+            Dictionaries loaded by a DataLoader. Default None (instance variable)
         '''
-        if df is None:
-            df = self.df
-        self.plot_feature(df,'visitor_useragent','Browser','Count')
+        if dicts is None:
+            dicts = self.dicts
+        self.plot_feature(dicts,'visitor_useragent','Browser','Count')
 
 
-    def plot_browsers(self,df=None):
+    def plot_browsers(self,dicts=None):
         '''
         Plot a histogram of the home continents of the visitors.
         Parameters
         ==========
-        df: Pandas.DataFrame
-            Dataframe extracted from the site.
+        dicts: dictionary list
+            Dictionaries loaded by a DataLoader. Default None (instance variable)
         '''
-        if df is None:
-            df = self.df
-        self.plot_feature(df,'visitor_useragent_trimmed','Browser','Count')
+        if dicts is None:
+            dicts = self.dicts
+        self.plot_feature(dicts,'visitor_useragent_trimmed','Browser','Count')
 
 if __name__ == "__main__":
     # IMPORTS TO TEST
@@ -93,8 +102,7 @@ if __name__ == "__main__":
     dl_full = DataLoader()
     dl_full.complete_load(path_base_dataset)
 
-    dv = DataVisualiser(dl_full.df)
-    # dv.plot_countries()
-    # dv.plot_continents()
+    dv = DataVisualiser(dl_full.dicts)
+    dv.plot_countries()
+    dv.plot_continents()
     dv.plot_browsers()
-    # TESTS OF THE DIFFERENT FUNCTIONS
