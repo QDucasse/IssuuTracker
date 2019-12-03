@@ -11,7 +11,9 @@ from IssuuTracker.affinity_finder import AffinityFinder
 from IssuuTracker.graph_handler   import GraphHandler
 
 class GUI(tk.Tk):
-
+    '''
+    GUI is a subclass of tk.Tk and holds as instance variables
+    '''
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
@@ -24,7 +26,7 @@ class GUI(tk.Tk):
         # ========================
 
         self.title("ISSUU Tracker")
-        self.geometry("650x500")
+        self.geometry("650x300")
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
@@ -59,8 +61,9 @@ class GUI(tk.Tk):
         load_dataset_button.grid(column = 0, row = 1)
 
     def init_stat_frame(self):
-
-
+        '''
+        Initialise the different buttons and labels of the stat frame.
+        '''
         label_stat = tk.Label(self.stat_frame,text = "Statistical visualisations")
         label_stat.grid(column = 0, columnspan = 10,row = 0)
 
@@ -78,6 +81,10 @@ class GUI(tk.Tk):
 
 
     def init_uuid_frame(self):
+        '''
+        Initialise the different labels of the uuid frame. Note that the entries
+        have been put as instance variables to access their content.
+        '''
         label_uuid = tk.Label(self.uuid_frame,text = "UUIDs")
         label_uuid.grid(column = 0, columnspan = 10,row = 0)
 
@@ -88,7 +95,9 @@ class GUI(tk.Tk):
         document_uuid_label.grid(column = 1, row = 3)
 
     def init_al_frame(self):
-
+        '''
+        Initialise the different buttons of the also likes frame.
+        '''
         al_uuid = tk.Label(self.al_frame,text = "Also Likes")
         al_uuid.grid(column = 0, columnspan = 10,row = 0)
 
@@ -101,6 +110,10 @@ class GUI(tk.Tk):
     # Functions:
     # ==========
     def load_dataset(self):
+        '''
+        Open a file dialog and allow the user to choose a file. Initialise the different
+        component by loading it.
+        '''
         filename = filedialog.askopenfilename(title = "Select file",filetypes = (("json files","*.json"),("all files","*.*")))
         if not filename.endswith('.json'):
             messagebox.showinfo("Visualizer error", "Filetype must be a .json")
@@ -112,18 +125,33 @@ class GUI(tk.Tk):
 
     # DF FRAME FUNCTIONS
     def gui_plot_countries(self):
+        '''
+        Plot the countries of the users of the dataset
+        '''
         self.dv.plot_countries()
 
     def gui_plot_continents(self):
+        '''
+        Plot the continents of the users of the dataset
+        '''
         self.dv.plot_continents()
 
     def gui_plot_browsers_verbose(self):
+        '''
+        Plot the full visitor_user_agent of the users of the dataset.
+        '''
         self.dv.plot_browsers_verbose()
 
     def gui_plot_browsers(self):
+        '''
+        Plot the trimmed visitor_user_agent of the users of the dataset.
+        '''
         self.dv.plot_browsers()
 
     def gui_also_likes_list(self):
+        '''
+        Display the list of "also liked" documents as labels next to the button.
+        '''
         visitor_uuid = self.visitor_uuid_entry.get()
         document_uuid = self.document_uuid_entry.get()
         al_list = self.af.also_likes(document_uuid,visitor_uuid)
@@ -132,6 +160,9 @@ class GUI(tk.Tk):
             al_doc.grid(column = 1, columnspan = 10,row = i+1)
 
     def gui_also_likes_graph(self):
+        '''
+        Generate and display the "also likes" graph.
+        '''
         visitor_uuid = self.visitor_uuid_entry.get()
         document_uuid = self.document_uuid_entry.get()
         self.gh.create_graph(base_visitor_uuid=visitor_uuid,base_document_uuid=document_uuid)
