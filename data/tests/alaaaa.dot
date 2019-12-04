@@ -1,0 +1,24 @@
+digraph "alaaaa.dot" {
+	node [shape=square]
+	node [shape=square]
+	1111
+	node [color=black style=solid]
+	node [shape=circle]
+	bbbb
+	1111 -> bbbb
+	node [color=black style=solid]
+	node [shape=circle]
+	node [color=green style=filled]
+	aaaa
+	1111 -> aaaa
+	node [color=black style=solid]
+	node [shape=square]
+	node [color=green style=filled]
+	0000
+	node [color=black style=solid]
+	node [shape=circle]
+	node [color=green style=filled]
+	aaaa
+	0000 -> aaaa
+	node [color=black style=solid]
+}

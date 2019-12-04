@@ -16,6 +16,29 @@ class DataVisualiser():
     def __init__(self,dicts):
         self.dicts = dicts
 
+    def create_histogram_dict(self,dicts,feature):
+        '''
+        Plot the number of the feature attribute in the given dataset.
+        Parameters
+        ==========
+        dicts: dictionary list
+            Dictionaries loaded by a DataLoader.
+        feature: string
+            Feature to be extracted and shown.
+
+        Returns
+        =======
+        feature_dicts: dictionary
+            Dictionary holding values as keys and count as values.
+        '''
+        feature_dict = {}
+        for dict in dicts:
+            if dict[feature] in feature_dict:
+                feature_dict[dict[feature]] += 1
+            else:
+                feature_dict[dict[feature]] = 1
+        return feature_dict
+
     def plot_feature(self,dicts,feature,xlabel,ylabel):
         '''
         Plot the number of the feature attribute in the given dataset.
@@ -25,6 +48,10 @@ class DataVisualiser():
             Dictionaries loaded by a DataLoader.
         feature: string
             Feature to be extracted and shown.
+        xlabel: string
+            Label of the X axis.
+        ylabel: string
+            Label of the Y axis.
         '''
         # CREATE HISTOGRAM DICT
         # =====================
