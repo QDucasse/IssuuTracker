@@ -129,6 +129,8 @@ Thumbs.db
 
 # Graphs results
 graphs
+!graphs/*.dot
+
 
 # Big data files
 data/issuu_3m.json

@@ -12,13 +12,10 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='IssuuTracker',
     description='Coursework2-Industrial Programming',
-    long_description=long_description,
-
     # The project's main homepage.
     url='https://github.com/QDucasse/IssuuTracker',
-
     # Author details
-    author='Quentin Ducasse',
+    author='Quentin Ducasse, Eliott Blondin',
     author_email='qd14@hw.ac.uk',
 
     # Choose your license
@@ -54,5 +51,6 @@ setup(
     packages=find_packages(),
 
     install_requires=['matplotlib','graphviz','pytest'],
+    entry_points={"console_scripts": ["qducasse=IssuuTracker.__main__:main"]},
 
 )

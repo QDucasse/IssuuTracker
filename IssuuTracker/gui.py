@@ -115,9 +115,7 @@ class GUI(tk.Tk):
         component by loading it.
         '''
         filename = filedialog.askopenfilename(title = "Select file",filetypes = (("json files","*.json"),("all files","*.*")))
-        if not filename.endswith('.json'):
-            messagebox.showinfo("Visualizer error", "Filetype must be a .json")
-        else:
+        if filename.endswith('.json'):
             self.dl.complete_load(filename)
             self.dv = DataVisualiser(self.dl.dicts)
             self.af = AffinityFinder(self.dl.dicts)

@@ -60,7 +60,7 @@ class DataLoader():
             Given dictionary with a new field 'visitor_useragent_trimmed'
         '''
         pattern = '([a-zA-Z]*)\/'
-
+        # Key in Dictionary
         if 'visitor_useragent' in dict:
             browser_verbose = dict['visitor_useragent']
             if re.match(pattern,browser_verbose):

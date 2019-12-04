@@ -252,8 +252,6 @@ class ContinentConverter():
     }
 
     def convert_country_alpha2_to_continent(self,country_2_code):
-        """Convert country code to continent.
-        """
         if country_2_code not in self.COUNTRY_ALPHA2_TO_CONTINENT:
             return 'Undefined'
 

@@ -82,7 +82,7 @@ class AffinityFinder():
             sort_func = self.sort_10best
         if visitor_uuid == '':
             visitor_uuid = None
-        dicts_list = [docs for visitor in self.readers_of(doc_uuid,dicts) for docs in self.has_read(visitor,dicts) if visitor!=visitor_uuid]
+        dicts_list = [doc for visitor in self.readers_of(doc_uuid,dicts) for doc in self.has_read(visitor,dicts) if visitor!=visitor_uuid]
         return sort_func(dicts_list,doc_uuid)
 
     ## SORTING FUNCTIONS
@@ -108,7 +108,7 @@ class AffinityFinder():
         sort_list = list(set(sort_list))
         if doc_uuid in sort_list:
             sort_list.remove(doc_uuid)
-        return [doc_uuid] + sort_list[:10]
+        return [doc_uuid] + sort_list[:9]
 
     def id(self,docs_list,doc_uuid):
         return docs_list
@@ -127,12 +127,12 @@ if __name__ == "__main__":
     # print(af.also_likes_list('120928161916-bbf9b86bb865460a8e674d5338115a18'))
 
     # Test 2
-    # print(has_read_list('2f63e0cca690da91'))
-    # print(also_likes_list('140219141540-c900b41f845c67cc08b58911155c681c'))
+    print(af.has_read('2f63e0cca690da91'))
+    print(af.also_likes('140219141540-c900b41f845c67cc08b58911155c681c'))
 
-    dl_100k = DataLoader()
-    dl_100k.load_dataset_from(path_100k_dataset)
-    af100k = AffinityFinder(dl_100k.dicts)
-    print(af100k.also_likes('aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe'))
+    # dl_100k = DataLoader()
+    # dl_100k.load_dataset_from(path_100k_dataset)
+    # af100k = AffinityFinder(dl_100k.dicts)
+    # print(af100k.also_likes('aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe'))
     # print(af100k.readers_of('aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe'))
     # print(af100k.has_read('4108dc09bfe11a0c'))
