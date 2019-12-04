@@ -2,9 +2,6 @@
 created on: 16/11/2019-12:44
 by: QDucasse
 '''
-
-import pandas            as pd
-import seaborn           as sns
 import matplotlib.pyplot as plt
 
 class DataVisualiser():

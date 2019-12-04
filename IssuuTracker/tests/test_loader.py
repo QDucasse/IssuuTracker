@@ -1,7 +1,4 @@
-
 import unittest
-import pandas as pd
-from nose.tools import raises
 from IssuuTracker.data_loader import DataLoader, path_smpl_dataset
 
 class LoaderTestCase(unittest.TestCase):

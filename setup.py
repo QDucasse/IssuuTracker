@@ -53,6 +53,6 @@ setup(
 
     packages=find_packages(),
 
-    install_requires=['matplotlib','pandas','seaborn','graphviz','pytest','pyinstaller'],
+    install_requires=['matplotlib','graphviz','pytest'],
 
 )
