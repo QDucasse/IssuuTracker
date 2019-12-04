@@ -80,6 +80,8 @@ class AffinityFinder():
             dicts = self.dicts
         if sort_func is None:
             sort_func = self.sort_10best
+        if visitor_uuid == '':
+            visitor_uuid = None
         dicts_list = [docs for visitor in self.readers_of(doc_uuid,dicts) for docs in self.has_read(visitor,dicts) if visitor!=visitor_uuid]
         return sort_func(dicts_list,doc_uuid)
 
@@ -108,6 +110,9 @@ class AffinityFinder():
             sort_list.remove(doc_uuid)
         return [doc_uuid] + sort_list[:10]
 
+    def id(self,docs_list,doc_uuid):
+        return docs_list
+
 if __name__ == "__main__":
     # IMPORTS TO TEST
     from IssuuTracker.data_loader import DataLoader,path_base_dataset,path_100k_dataset
@@ -128,6 +133,6 @@ if __name__ == "__main__":
     dl_100k = DataLoader()
     dl_100k.load_dataset_from(path_100k_dataset)
     af100k = AffinityFinder(dl_100k.dicts)
-    print(af100k.also_likes_list('100806162735-00000000115598650cb8b514246272b5'))
-    # print(af100k.readers_of_list('aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe'))
-    # print(af100k.has_read_list('4108dc09bfe11a0c'))
+    print(af100k.also_likes('aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe'))
+    # print(af100k.readers_of('aaaaaaaaaaaa-00000000df1ad06a86c40000000feadbe'))
+    # print(af100k.has_read('4108dc09bfe11a0c'))

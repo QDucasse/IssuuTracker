@@ -10,7 +10,7 @@ from IssuuTracker.affinity_finder import AffinityFinder
 from IssuuTracker.graph_handler   import GraphHandler
 from IssuuTracker.gui             import GUI
 
-if __name__ == "__main__":
+def main():
     # COMPONENTS CREATION
     # ===================
     dl = DataLoader()
@@ -26,34 +26,38 @@ if __name__ == "__main__":
 
     if args.task_id == "2a":
         dl.complete_load(args.file_name)
-        dv = DataVisualiser(dl.df)
+        dv = DataVisualiser(dl.dicts)
         dv.plot_countries()
 
     elif args.task_id == "2b":
         dl.complete_load(args.file_name)
-        dv = DataVisualiser(dl.df)
+        dv = DataVisualiser(dl.dicts)
         dv.plot_continents()
 
     elif args.task_id == "3a":
         dl.complete_load(args.file_name)
-        dv = DataVisualiser(dl.df)
+        dv = DataVisualiser(dl.dicts)
         dv.plot_browsers_verbose()
 
     elif args.task_id == "3b":
         dl.complete_load(args.file_name)
-        dv = DataVisualiser(dl.df)
+        dv = DataVisualiser(dl.dicts)
         dv.plot_browsers()
 
     elif args.task_id == "4d":
         dl.load_dataset_from(args.file_name)
-        af = AffinityFinder(dl.df)
+        af = AffinityFinder(dl.dicts)
         print(af.also_likes_list(args.doc_uuid))
 
     elif args.task_id == "5":
         dl.load_dataset_from(args.file_name)
-        gh = GraphHandler(dl.df,args.user_uuid,args.doc_uuid)
+        gh = GraphHandler(dl.dicts,args.user_uuid,args.doc_uuid)
         graph = gh.create_graph()
 
     elif args.task_id == "6":
         gui = GUI()
         gui.mainloop()
+
+
+if __name__ == "__main__":
+    main()

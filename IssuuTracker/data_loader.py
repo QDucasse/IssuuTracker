@@ -59,10 +59,14 @@ class DataLoader():
         new_dict: dictionary
             Given dictionary with a new field 'visitor_useragent_trimmed'
         '''
-        browser_verbose = dict['visitor_useragent']
         pattern = '([a-zA-Z]*)\/'
+
         if 'visitor_useragent' in dict:
-            dict['visitor_useragent_trimmed'] = re.findall(pattern,browser_verbose)[0]+' '+re.findall(pattern,browser_verbose)[-1]
+            browser_verbose = dict['visitor_useragent']
+            if re.match(pattern,browser_verbose):
+                dict['visitor_useragent_trimmed'] = re.findall(pattern,browser_verbose)[0]+' '+re.findall(pattern,browser_verbose)[-1]
+            else:
+                dict['visitor_useragent_trimmed'] = dict['visitor_useragent']
         return dict
 
     def map_trim(self,dicts=None):
