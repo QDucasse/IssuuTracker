@@ -47,12 +47,12 @@ def main():
     elif args.task_id == "4d":
         dl.load_dataset_from(args.file_name)
         af = AffinityFinder(dl.dicts)
-        print(af.also_likes_list(args.doc_uuid))
+        print(af.also_likes(args.doc_uuid))
 
     elif args.task_id == "5":
         dl.load_dataset_from(args.file_name)
-        gh = GraphHandler(dl.dicts,args.user_uuid,args.doc_uuid)
-        graph = gh.create_graph()
+        gh = GraphHandler(dicts=dl.dicts)
+        graph = gh.create_graph(base_document_uuid=args.doc_uuid,base_visitor_uuid=args.user_uuid)
 
     elif args.task_id == "6":
         gui = GUI()
