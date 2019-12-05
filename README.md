@@ -6,7 +6,7 @@ The project was developed through a virtual environment with `virtualenvwrapper`
 and we highly recommend to do so as well. However, whether or not you are in a
 virtual environment, the installation proceeds as follows:
 
-* To download and install a standalone executable:
+* To download and install a standalone executable:  
 The standalone executable can be found in the `dist/` folder and be used using the `--help` flag
 
 * To download and install the source code of the project:
