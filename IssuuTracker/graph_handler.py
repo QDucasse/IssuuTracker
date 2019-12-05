@@ -32,7 +32,7 @@ class GraphHandler:
         '''
         self.graph = Digraph()
 
-    def create_graph(self,dicts=None,base_visitor_uuid=None,base_document_uuid=None):
+    def create_graph(self,dicts=None,base_visitor_uuid=None,base_document_uuid=None,render=True):
         '''
         Create a dot graph for the 'also likes' property.
         Parameters
@@ -81,7 +81,8 @@ class GraphHandler:
                 if document in al:
                     self.create_document_node(document,visitor,self.graph,base_document_uuid)
 
-        self.graph.render('./graphs/'+self.graph.name,view=True)
+        if render:
+            self.graph.render('./graphs/'+self.graph.name,view=True)
         return self.graph
 
     def create_visitor_node(self,visitor_uuid,graph=None,base_visitor_uuid=None):

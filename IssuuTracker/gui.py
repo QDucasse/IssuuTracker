@@ -26,7 +26,7 @@ class GUI(tk.Tk):
         # ========================
 
         self.title("ISSUU Tracker")
-        self.geometry("650x300")
+        self.geometry("520x330")
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
@@ -45,6 +45,8 @@ class GUI(tk.Tk):
         self.document_uuid_entry = tk.Entry(self.uuid_frame)
         self.document_uuid_entry.insert("end","140219141540-c900b41f845c67cc08b58911155c681c")
         self.document_uuid_entry.grid(column = 2, row = 3)
+
+        self.al_label_list=[]
 
         self.init_df_frame()
         self.init_stat_frame()
@@ -153,9 +155,13 @@ class GUI(tk.Tk):
         visitor_uuid = self.visitor_uuid_entry.get()
         document_uuid = self.document_uuid_entry.get()
         al_list = self.af.also_likes(document_uuid,visitor_uuid)
+        for elt in self.al_label_list:
+            elt.destroy()
+
         for i,doc in enumerate(al_list):
             al_doc = tk.Label(self.al_frame,text = doc)
             al_doc.grid(column = 1, columnspan = 10,row = i+1)
+            self.al_label_list.append(al_doc)
 
     def gui_also_likes_graph(self):
         '''
@@ -163,6 +169,7 @@ class GUI(tk.Tk):
         '''
         visitor_uuid = self.visitor_uuid_entry.get()
         document_uuid = self.document_uuid_entry.get()
+        self.gh.reset_graph()
         self.gh.create_graph(base_visitor_uuid=visitor_uuid,base_document_uuid=document_uuid)
 
 if __name__ == "__main__":

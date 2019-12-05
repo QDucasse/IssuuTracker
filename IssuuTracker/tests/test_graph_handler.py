@@ -10,7 +10,7 @@ class GraphHandlerTestCase(unittest.TestCase):
         self.gh = GraphHandler(self.dl.dicts)
 
     def test_file_created(self):
-        self.gh.create_graph(base_visitor_uuid="0000",base_document_uuid="aaaa")
+        self.gh.create_graph(base_visitor_uuid="0000",base_document_uuid="aaaa",render=False)
         import os.path
         self.assertTrue(os.path.exists('graphs/alaaaa.dot'))
         self.assertTrue(os.path.exists('graphs/alaaaa.dot.pdf'))

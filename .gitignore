@@ -10,7 +10,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+
 downloads/
 eggs/
 .eggs/
@@ -129,11 +129,12 @@ Thumbs.db
 
 # Graphs results
 graphs
-!graphs/*.dot
-
 
 # Big data files
 data/issuu_3m.json
 data/issuu_600k.json
 data/issuu_400k.json
 data/issuu_100k.json
+
+# DIST
+dist/cw2

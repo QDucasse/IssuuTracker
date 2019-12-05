@@ -6,6 +6,9 @@ The project was developed through a virtual environment with `virtualenvwrapper`
 and we highly recommend to do so as well. However, whether or not you are in a
 virtual environment, the installation proceeds as follows:
 
+* For downloading and installing a standalone executable:
+The standalone executable can be found in the `dist/` folder and be used using the `--help` flag
+
 * For downloading and installing the source code of the project:
 
   ```bash
@@ -34,9 +37,9 @@ virtual environment, the installation proceeds as follows:
   - [X] Views by country/continent (Q.2a,Q.2b)
   - [X] Views by browser (Q.3)
   - [X] "Also likes" functionality (Q.4)
-  - [ ] "Also likes" graph (Q.5)
-  - [ ] GUI usage (Q.6)
-  - [ ] Command line wrapper (Q.7)
+  - [X] "Also likes" graph (Q.5)
+  - [X] GUI usage (Q.6)
+  - [X] Command line wrapper (Q.7)
 
   ---
 
