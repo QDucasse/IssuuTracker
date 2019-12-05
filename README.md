@@ -6,17 +6,17 @@ The project was developed through a virtual environment with `virtualenvwrapper`
 and we highly recommend to do so as well. However, whether or not you are in a
 virtual environment, the installation proceeds as follows:
 
-* For downloading and installing a standalone executable:
+* To download and install a standalone executable:
 The standalone executable can be found in the `dist/` folder and be used using the `--help` flag
 
-* For downloading and installing the source code of the project:
+* To download and install the source code of the project:
 
   ```bash
     $ cd <directory you want to install to>
     $ git clone https://github.com/QDucasse/IssuuTracker
     $ python setup.py install
   ```
-* For downloading and installing the source code of the project in a new virtual environment:  
+* To download and install the source code of the project in a new virtual environment:  
 
   *Download of the source code & Creation of the virtual environment*
   ```bash
